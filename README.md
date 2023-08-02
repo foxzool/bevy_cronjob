@@ -50,7 +50,7 @@ the scheduling expression is base on [cron](https://github.com/zslayton/cron)
 | *    | *    | *    | *            | *     | *           | *         |
 | 0-59 | 0-59 | 0-23 | 1-23         | 1-12  | 1-7         | 1970-2100 |
 
-Time is specified in UTC.
+Time is specified in UTC. Note that the year may be omitted.
 
 Comma separated values such as `1,2,3` are allowed. For example, a schedule of `0,15,30,45 * * * * *`' would execute on every 15 seconds.
 

@@ -16,14 +16,13 @@ fn main() {
         .add_plugins(LogPlugin::default())
         .add_systems(Update, print_per_5_sec.run_if(schedule_passed("0/5 * * * * *")))
         .add_systems(Update, print_per_min.run_if(schedule_passed("0 * * * * *")))
-        .add_systems(Update, print_per_hour.run_if(schedule_passed("0 5,10 * * * *")))
+        .add_systems(Update, print_per_hour.run_if(schedule_passed("0 0 * * * *")))
         .run()
 }
 
 fn print_per_5_sec() {
     info!("print every 5 sec")
 }
-
 fn print_per_min() {
     info!("print every minute")
 }
