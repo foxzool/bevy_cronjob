@@ -2,7 +2,7 @@
 
 # bevy_cronjob
 
-`bevy_cronjob` is a helper for run cron job in bevy.
+`bevy_cronjob` is a helper for run cron job in Bevy.
 
 ## Usage
 
@@ -25,7 +25,7 @@ fn main() {
         .add_plugins(LogPlugin::default())
         .add_systems(Update, print_per_5_sec.run_if(schedule_passed("0/5 * * * * *")))
         .add_systems(Update, print_per_min.run_if(schedule_passed("0 * * * * *")))
-        .add_systems(Update, print_per_hour.run_if(schedule_passed("0 5,10 * * * *")))
+        .add_systems(Update, print_per_hour.run_if(schedule_passed("0 0 * * * *")))
         .run()
 }
 
