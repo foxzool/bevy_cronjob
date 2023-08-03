@@ -2,7 +2,7 @@
 
 # bevy_cronjob
 
-`bevy_cronjob` is a helper for run cron job in Bevy.
+`bevy_cronjob` is a simple helper to run cronjobs (at repeated schedule) in Bevy.
 
 ## Usage
 
