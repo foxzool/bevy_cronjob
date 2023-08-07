@@ -1,4 +1,6 @@
-[![crates.io](https://img.shields.io/crates/v/bevy_cronjob)](https://crates.io/crates/bevy_serialport)
+[![crates.io](https://img.shields.io/crates/v/bevy_cronjob)](https://crates.io/crates/bevy_cronjob)
+[![MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](https://github.com/Seldom-SE/seldom_pixel#license)
+[![crates.io](https://img.shields.io/crates/d/bevy_cronjob)](https://crates.io/crates/bevy_cronjob)
 
 # bevy_cronjob
 
