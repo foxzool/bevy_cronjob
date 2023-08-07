@@ -4,6 +4,26 @@ use bevy_ecs::prelude::Local;
 use chrono::DateTime;
 use cron::Schedule;
 
+/// run every 5 sec
+pub const EVERY_5_SEC: &str = "0/5 * * * * * *";
+/// run every 10 sec
+pub const EVERY_10_SEC: &str = "0/10 * * * * * *";
+/// run every 30 sec
+pub const EVERY_30_SEC: &str = "0/30 * * * * * *";
+/// run every minute
+pub const EVERY_MIN: &str = "0 * * * * * *";
+/// run every 5 minutes
+pub const EVERY_5_MIN: &str = "0 */5 * * * * *";
+/// run every 10 minutes
+pub const EVERY_10_MIN: &str = "0 */10 * * * * *";
+/// run every 30 minutes
+pub const EVERY_30_MIN: &str = "0 */30 * * * * *";
+/// run every hour
+pub const EVERY_HOUR: &str = "0 0 * * * * *";
+/// run every day
+pub const EVERY_DAY: &str = "0 0 0 * * * *";
+
+
 /// Creates a closure that checks if the cron expression has passed
 /// # expression format:
 /// Note that the year may be omitted.
