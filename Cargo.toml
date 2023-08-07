@@ -1,6 +1,6 @@
 [package]
 name = "bevy_cronjob"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["FoxZoOL <zhooul@gmail.com>"]
 description = "A simple helper to run cronjobs (at repeated schedule) in Bevy."
