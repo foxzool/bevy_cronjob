@@ -1,10 +1,11 @@
 use std::time::Duration;
-use bevy::{ MinimalPlugins};
+
 use bevy::app::{App, PluginGroup, ScheduleRunnerPlugin, Update};
 use bevy::log::{info, LogPlugin};
+use bevy::MinimalPlugins;
+use bevy_ecs::prelude::IntoSystemConfigs;
 
-use bevy_ecs::prelude::{IntoSystemConfigs};
-use bevy_cronjob::{EVERY_HOUR, EVERY_MIN, schedule_passed};
+use bevy_cronjob::{schedule_passed, EVERY_HOUR, EVERY_MIN};
 
 fn main() {
     App::new()
@@ -14,7 +15,10 @@ fn main() {
             ))),
         )
         .add_plugins(LogPlugin::default())
-        .add_systems(Update, print_per_5_sec.run_if(schedule_passed("0/5 * * * * *")))
+        .add_systems(
+            Update,
+            print_per_5_sec.run_if(schedule_passed("0/5 * * * * *")),
+        )
         .add_systems(Update, print_per_min.run_if(schedule_passed(EVERY_MIN)))
         .add_systems(Update, print_per_hour.run_if(schedule_passed(EVERY_HOUR)))
         .run()
@@ -23,10 +27,11 @@ fn main() {
 fn print_per_5_sec() {
     info!("print every 5 sec")
 }
+
 fn print_per_min() {
     info!("print every minute")
 }
+
 fn print_per_hour() {
     info!("print every hour")
 }
-

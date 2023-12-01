@@ -77,7 +77,6 @@ pub const EVERY_HOUR: &str = "0 0 * * * * *";
 /// run every day
 pub const EVERY_DAY: &str = "0 0 0 * * * *";
 
-
 /// Creates a closure that checks if the cron expression has passed
 /// # expression format:
 /// Note that the year may be omitted.
@@ -93,7 +92,9 @@ pub const EVERY_DAY: &str = "0 0 0 * * * *";
 /// |0 * * * * * | every minute |
 /// |0 5,10 * * * * | every hour on 5 and 10 min|
 /// |0 0 1 * * * | every day on 1:00:00|
-pub fn schedule_passed(expression: &str) -> impl FnMut(Local<Option<DateTime<chrono::Utc>>>) -> bool {
+pub fn schedule_passed(
+    expression: &str,
+) -> impl FnMut(Local<Option<DateTime<chrono::Utc>>>) -> bool {
     let schedule = Schedule::from_str(expression).expect("Failed to parse cron expression");
     move |mut local_schedule: Local<Option<DateTime<chrono::Utc>>>| {
         if let Some(datetime) = schedule.upcoming(chrono::Utc).next() {
