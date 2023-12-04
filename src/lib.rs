@@ -8,7 +8,7 @@ use cron::Schedule;
 ///
 /// # Usage
 ///
-/// ``` rust
+/// ``` rust,no_run
 /// use std::time::Duration;
 /// use bevy::{ MinimalPlugins};
 /// use bevy::app::{App, PluginGroup, ScheduleRunnerPlugin, Update};
