@@ -5,7 +5,6 @@ use chrono::DateTime;
 use cron::Schedule;
 
 /// bevy_cronjob is a simple helper to run cronjobs (at repeated schedule) in Bevy.
-///
 /// # Usage
 ///
 /// ``` rust,no_run
