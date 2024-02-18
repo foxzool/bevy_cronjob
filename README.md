@@ -64,6 +64,7 @@ Ranges can be specified with a dash. For example `1-5 * * * * *`' would execute 
 
 | bevy | bevy_cronjob |
 |------|--------------|
+| 0.13 | 0.3          |
 | 0.12 | 0.2          |
 | 0.11 | 0.1          |
 
