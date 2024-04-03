@@ -9,6 +9,8 @@ repository = "https://github.com/foxzool/bevy_cronjob"
 license = "MIT OR Apache-2.0"
 keywords = ["bevy", "cronjob", "plugin"]
 categories = ["game-development"]
+homepage = "https://github.com/foxzool/bevy_cronjob"
+documentation = "https://docs.rs/bevy_cronjob"
 
 [dependencies]
 bevy_ecs = "0.13.0"
