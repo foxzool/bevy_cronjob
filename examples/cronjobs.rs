@@ -1,8 +1,10 @@
 use std::time::Duration;
 
-use bevy::app::{App, PluginGroup, ScheduleRunnerPlugin, Update};
-use bevy::log::{info, LogPlugin};
-use bevy::MinimalPlugins;
+use bevy::{
+    app::{App, PluginGroup, ScheduleRunnerPlugin, Update},
+    log::{info, LogPlugin},
+    MinimalPlugins,
+};
 use bevy_ecs::prelude::IntoSystemConfigs;
 
 use bevy_cronjob::{schedule_passed, EVERY_HOUR, EVERY_MIN};
@@ -21,7 +23,7 @@ fn main() {
         )
         .add_systems(Update, print_per_min.run_if(schedule_passed(EVERY_MIN)))
         .add_systems(Update, print_per_hour.run_if(schedule_passed(EVERY_HOUR)))
-        .run()
+        .run();
 }
 
 fn print_per_5_sec() {

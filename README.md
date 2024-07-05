@@ -10,7 +10,7 @@
 
 ## Usage
 
-``` rust
+``` rust, no_run
 use std::time::Duration;
 use bevy::{ MinimalPlugins};
 use bevy::app::{App, PluginGroup, ScheduleRunnerPlugin, Update};
@@ -30,7 +30,7 @@ fn main() {
         .add_systems(Update, print_per_5_sec.run_if(schedule_passed("0/5 * * * * *")))
         .add_systems(Update, print_per_min.run_if(schedule_passed("0 * * * * *")))
         .add_systems(Update, print_per_hour.run_if(schedule_passed("0 0 * * * *")))
-        .run()
+        .run();
 }
 
 fn print_per_5_sec() {
@@ -56,14 +56,17 @@ the scheduling expression is base on [cron](https://github.com/zslayton/cron)
 
 Time is specified in UTC. Note that the year may be omitted.
 
-Comma separated values such as `1,2,3` are allowed. For example, a schedule of `0,15,30,45 * * * * *`' would execute on every 15 seconds.
+Comma separated values such as `1,2,3` are allowed. For example, a schedule of `0,15,30,45 * * * * *`' would execute on
+every 15 seconds.
 
-Ranges can be specified with a dash. For example `1-5 * * * * *`' would execute on every second for the first 5 seconds of a minute.
+Ranges can be specified with a dash. For example `1-5 * * * * *`' would execute on every second for the first 5 seconds
+of a minute.
 
 ## Supported Versions
 
 | bevy | bevy_cronjob |
 |------|--------------|
+| 0.14 | 0.4          |
 | 0.13 | 0.3          |
 | 0.12 | 0.2          |
 | 0.11 | 0.1          |

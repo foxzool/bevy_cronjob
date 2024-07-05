@@ -27,7 +27,7 @@ use cron::Schedule;
 ///         .add_systems(Update, print_per_5_sec.run_if(schedule_passed("0/5 * * * * *")))
 ///         .add_systems(Update, print_per_min.run_if(schedule_passed("0 * * * * *")))
 ///         .add_systems(Update, print_per_hour.run_if(schedule_passed("0 0 * * * *")))
-///         .run()
+///         .run();
 /// }
 ///
 /// fn print_per_5_sec() {
@@ -53,9 +53,11 @@ use cron::Schedule;
 ///
 /// Time is specified in UTC. Note that the year may be omitted.
 ///
-/// Comma separated values such as `1,2,3` are allowed. For example, a schedule of `0,15,30,45 * * * * *`' would execute on every 15 seconds.
+/// Comma separated values such as `1,2,3` are allowed. For example, a schedule of `0,15,30,45 * * *
+/// * *`' would execute on every 15 seconds.
 ///
-/// Ranges can be specified with a dash. For example `1-5 * * * * *`' would execute on every second for the first 5 seconds of a minute.
+/// Ranges can be specified with a dash. For example `1-5 * * * * *`' would execute on every second
+/// for the first 5 seconds of a minute.
 
 /// run every 5 sec
 pub const EVERY_5_SEC: &str = "0/5 * * * * * *";
@@ -75,6 +77,78 @@ pub const EVERY_30_MIN: &str = "0 */30 * * * * *";
 pub const EVERY_HOUR: &str = "0 0 * * * * *";
 /// run every day
 pub const EVERY_DAY: &str = "0 0 0 * * * *";
+
+/// run every day at 1 am UTC
+pub const EVERY_1_AM_UTC: &str = "0 0 1 * * * *";
+
+/// run every day at 2 am UTC
+pub const EVERY_2_AM_UTC: &str = "0 0 2 * * * *";
+
+/// run every day at 3 am UTC
+pub const EVERY_3_AM_UTC: &str = "0 0 3 * * * *";
+
+/// run every day at 4 am UTC
+pub const EVERY_4_AM_UTC: &str = "0 0 4 * * * *";
+
+/// run every day at 5 am UTC
+pub const EVERY_5_AM_UTC: &str = "0 0 5 * * * *";
+
+/// run every day at 6 am UTC
+pub const EVERY_6_AM_UTC: &str = "0 0 6 * * * *";
+
+/// run every day at 7 am UTC
+pub const EVERY_7_AM_UTC: &str = "0 0 7 * * * *";
+
+/// run every day at 8 am UTC
+pub const EVERY_8_AM_UTC: &str = "0 0 8 * * * *";
+
+/// run every day at 9 am UTC
+pub const EVERY_9_AM_UTC: &str = "0 0 9 * * * *";
+
+/// run every day at 10 am UTC
+pub const EVERY_10_AM_UTC: &str = "0 0 10 * * * *";
+
+/// run every day at 11 am UTC
+pub const EVERY_11_AM_UTC: &str = "0 0 11 * * * *";
+
+/// run every day at 12 pm UTC
+pub const EVERY_12_PM_UTC: &str = "0 0 12 * * * *";
+
+/// run every day at 1 pm UTC
+pub const EVERY_1_PM_UTC: &str = "0 0 13 * * * *";
+
+/// run every day at 2 pm UTC
+pub const EVERY_2_PM_UTC: &str = "0 0 14 * * * *";
+
+/// run every day at 3 pm UTC
+pub const EVERY_3_PM_UTC: &str = "0 0 15 * * * *";
+
+/// run every day at 4 pm UTC
+pub const EVERY_4_PM_UTC: &str = "0 0 16 * * * *";
+
+/// run every day at 5 pm UTC
+pub const EVERY_5_PM_UTC: &str = "0 0 17 * * * *";
+
+/// run every day at 6 pm UTC
+pub const EVERY_6_PM_UTC: &str = "0 0 18 * * * *";
+
+/// run every day at 7 pm UTC
+pub const EVERY_7_PM_UTC: &str = "0 0 19 * * * *";
+
+/// run every day at 8 pm UTC
+pub const EVERY_8_PM_UTC: &str = "0 0 20 * * * *";
+
+/// run every day at 9 pm UTC
+pub const EVERY_9_PM_UTC: &str = "0 0 21 * * * *";
+
+/// run every day at 10 pm UTC
+pub const EVERY_10_PM_UTC: &str = "0 0 22 * * * *";
+
+/// run every day at 11 pm UTC
+pub const EVERY_11_PM_UTC: &str = "0 0 23 * * * *";
+
+/// run every day at 12 am UTC
+pub const EVERY_12_AM_UTC: &str = "0 0 0 * * * *";
 
 /// Creates a closure that checks if the cron expression has passed
 /// # expression format:
