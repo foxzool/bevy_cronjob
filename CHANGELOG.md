@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0-rc.1] - 2024-10-23
+
+* bump bevy version to `0.15.0-rc.1`
+
+## [0.4.0] - 2024-07-25
+
+* bump bevy version to `0.14`
+
 ## [0.3.0] - 2024-02-18
 
 * bump bevy version to `0.13`
