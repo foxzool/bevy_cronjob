@@ -1,5 +1,10 @@
 # Changelog
 
+## [unreleased]
+
+* bump `bevy_ecs` version to `0.15.0`
+* upgrade `cron` to `0.13.0`
+
 ## [0.5.0-rc.1] - 2024-10-23
 
 * bump bevy version to `0.15.0-rc.1`
