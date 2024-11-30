@@ -7,7 +7,7 @@ use bevy::{
 };
 use bevy_ecs::prelude::IntoSystemConfigs;
 
-use bevy_cronjob::{schedule_passed, EVERY_HOUR, EVERY_MIN};
+use bevy_cronjob::{schedule_passed};
 
 fn main() {
     App::new()
@@ -19,10 +19,10 @@ fn main() {
         .add_plugins(LogPlugin::default())
         .add_systems(
             Update,
-            print_per_5_sec.run_if(schedule_passed("0/5 * * * * *")),
+            print_per_5_sec.run_if(schedule_passed("every 5 seconds")),
         )
-        .add_systems(Update, print_per_min.run_if(schedule_passed(EVERY_MIN)))
-        .add_systems(Update, print_per_hour.run_if(schedule_passed(EVERY_HOUR)))
+        .add_systems(Update, print_per_min.run_if(schedule_passed("every 1 minute")))
+        .add_systems(Update, print_per_hour.run_if(schedule_passed("every hour")))
         .run();
 }
 

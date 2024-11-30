@@ -5,7 +5,7 @@
 
 # bevy_cronjob
 
-`bevy_cronjob` is a simple helper to run cronjobs (at repeated schedule) in Bevy.
+`bevy_cronjob` is a simple helper to run cronjob (at repeated schedule) in Bevy.
 
 ## Usage
 
@@ -26,9 +26,12 @@ fn main() {
             ))),
         )
         .add_plugins(LogPlugin::default())
-        .add_systems(Update, print_per_5_sec.run_if(schedule_passed("0/5 * * * * *")))
-        .add_systems(Update, print_per_min.run_if(schedule_passed("0 * * * * *")))
-        .add_systems(Update, print_per_hour.run_if(schedule_passed("0 0 * * * *")))
+        .add_systems(
+            Update,
+            print_per_5_sec.run_if(schedule_passed("every 5 seconds")),
+        )
+        .add_systems(Update, print_per_min.run_if(schedule_passed("every 1 minute")))
+        .add_systems(Update, print_per_hour.run_if(schedule_passed("every hour")))
         .run();
 }
 
@@ -60,6 +63,21 @@ every 15 seconds.
 
 Ranges can be specified with a dash. For example `1-5 * * * * *`' would execute on every second for the first 5 seconds
 of a minute.
+
+## Full List of Supported English Patterns
+
+supported by [english-to-cron](https://github.com/kaplanelad/english-to-cron)
+
+| English Phrase                                   | CronJob Syntax   |
+|--------------------------------------------------|------------------|
+| every 15 seconds                                 | 0/15 * * * * ? * |
+| run every minute                                 | 0 * * * * ? *    |
+| fire every day at 4:00 pm                        | 0 0 16 */1 * ? * |
+| at 10:00 am                                      | 0 0 10 * * ? *   |
+| run at midnight on the 1st and 15th of the month | 0 0 0 1,15 * ? * |
+| On Sunday at 12:00                               | 0 0 12 ? * SUN * |
+| 7pm every Thursday                               | 0 0 19 ? * THU * |
+| midnight on Tuesdays                             | 0 0 ? * TUE *    |
 
 ## Supported Versions
 

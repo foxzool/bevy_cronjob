@@ -1,9 +1,11 @@
 # Changelog
 
-## [unreleased]
+## [0.5.0]
 
 * bump `bevy_ecs` version to `0.15.0`
 * upgrade `cron` to `0.13.0`
+* support english pattern for cronjob by [english-to-cron](https://github.com/kaplanelad/english-to-cron)
+* system run time is now in Local time
 
 ## [0.5.0-rc.1] - 2024-10-23
 

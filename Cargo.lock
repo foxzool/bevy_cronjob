@@ -138,6 +138,7 @@ dependencies = [
  "bevy_ecs",
  "chrono",
  "cron",
+ "english-to-cron",
 ]
 
 [[package]]
@@ -633,6 +634,16 @@ name = "either"
 version = "1.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "60b1af1c220855b6ceac025d3f6ecdd2b7c4894bfe9cd9bda4fbb4bc7c0d4cf0"
+
+[[package]]
+name = "english-to-cron"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c16423ac933fee80f05a52b435a912d5b08edbbbfe936e0042ebb3accdf303da"
+dependencies = [
+ "lazy_static",
+ "regex",
+]
 
 [[package]]
 name = "equivalent"
