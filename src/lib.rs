@@ -51,7 +51,7 @@ use cron::Schedule;
 /// | *    | *    | *    | *            | *     | *           | *         |
 /// | 0-59 | 0-59 | 0-23 | 1-23         | 1-12  | 1-7         | 1970-2100 |
 ///
-/// Time is specified in UTC. Note that the year may be omitted.
+/// Time is specified in Local Time. Note that the year may be omitted.
 ///
 /// Comma separated values such as `1,2,3` are allowed. For example, a schedule of `0,15,30,45 * * *
 /// * *`' would execute on every 15 seconds.
@@ -79,76 +79,76 @@ pub const EVERY_HOUR: &str = "0 0 * * * * *";
 pub const EVERY_DAY: &str = "0 0 0 * * * *";
 
 /// run every day at 1 am UTC
-pub const EVERY_1_AM_UTC: &str = "0 0 1 * * * *";
+pub const EVERY_1_AM: &str = "0 0 1 * * * *";
 
 /// run every day at 2 am UTC
-pub const EVERY_2_AM_UTC: &str = "0 0 2 * * * *";
+pub const EVERY_2_AM: &str = "0 0 2 * * * *";
 
 /// run every day at 3 am UTC
-pub const EVERY_3_AM_UTC: &str = "0 0 3 * * * *";
+pub const EVERY_3_AM: &str = "0 0 3 * * * *";
 
 /// run every day at 4 am UTC
-pub const EVERY_4_AM_UTC: &str = "0 0 4 * * * *";
+pub const EVERY_4_AM: &str = "0 0 4 * * * *";
 
 /// run every day at 5 am UTC
-pub const EVERY_5_AM_UTC: &str = "0 0 5 * * * *";
+pub const EVERY_5_AM: &str = "0 0 5 * * * *";
 
 /// run every day at 6 am UTC
-pub const EVERY_6_AM_UTC: &str = "0 0 6 * * * *";
+pub const EVERY_6_AM: &str = "0 0 6 * * * *";
 
 /// run every day at 7 am UTC
-pub const EVERY_7_AM_UTC: &str = "0 0 7 * * * *";
+pub const EVERY_7_AM: &str = "0 0 7 * * * *";
 
 /// run every day at 8 am UTC
-pub const EVERY_8_AM_UTC: &str = "0 0 8 * * * *";
+pub const EVERY_8_AM: &str = "0 0 8 * * * *";
 
 /// run every day at 9 am UTC
-pub const EVERY_9_AM_UTC: &str = "0 0 9 * * * *";
+pub const EVERY_9_AM: &str = "0 0 9 * * * *";
 
 /// run every day at 10 am UTC
-pub const EVERY_10_AM_UTC: &str = "0 0 10 * * * *";
+pub const EVERY_10_AM: &str = "0 0 10 * * * *";
 
 /// run every day at 11 am UTC
-pub const EVERY_11_AM_UTC: &str = "0 0 11 * * * *";
+pub const EVERY_11_AM: &str = "0 0 11 * * * *";
 
 /// run every day at 12 pm UTC
-pub const EVERY_12_PM_UTC: &str = "0 0 12 * * * *";
+pub const EVERY_12_PM: &str = "0 0 12 * * * *";
 
 /// run every day at 1 pm UTC
-pub const EVERY_1_PM_UTC: &str = "0 0 13 * * * *";
+pub const EVERY_1_PM: &str = "0 0 13 * * * *";
 
 /// run every day at 2 pm UTC
-pub const EVERY_2_PM_UTC: &str = "0 0 14 * * * *";
+pub const EVERY_2_PM: &str = "0 0 14 * * * *";
 
 /// run every day at 3 pm UTC
-pub const EVERY_3_PM_UTC: &str = "0 0 15 * * * *";
+pub const EVERY_3_PM: &str = "0 0 15 * * * *";
 
 /// run every day at 4 pm UTC
-pub const EVERY_4_PM_UTC: &str = "0 0 16 * * * *";
+pub const EVERY_4_PM: &str = "0 0 16 * * * *";
 
 /// run every day at 5 pm UTC
-pub const EVERY_5_PM_UTC: &str = "0 0 17 * * * *";
+pub const EVERY_5_PM: &str = "0 0 17 * * * *";
 
 /// run every day at 6 pm UTC
-pub const EVERY_6_PM_UTC: &str = "0 0 18 * * * *";
+pub const EVERY_6_PM: &str = "0 0 18 * * * *";
 
 /// run every day at 7 pm UTC
-pub const EVERY_7_PM_UTC: &str = "0 0 19 * * * *";
+pub const EVERY_7_PM: &str = "0 0 19 * * * *";
 
 /// run every day at 8 pm UTC
-pub const EVERY_8_PM_UTC: &str = "0 0 20 * * * *";
+pub const EVERY_8_PM: &str = "0 0 20 * * * *";
 
 /// run every day at 9 pm UTC
-pub const EVERY_9_PM_UTC: &str = "0 0 21 * * * *";
+pub const EVERY_9_PM: &str = "0 0 21 * * * *";
 
 /// run every day at 10 pm UTC
-pub const EVERY_10_PM_UTC: &str = "0 0 22 * * * *";
+pub const EVERY_10_PM: &str = "0 0 22 * * * *";
 
 /// run every day at 11 pm UTC
-pub const EVERY_11_PM_UTC: &str = "0 0 23 * * * *";
+pub const EVERY_11_PM: &str = "0 0 23 * * * *";
 
 /// run every day at 12 am UTC
-pub const EVERY_12_AM_UTC: &str = "0 0 0 * * * *";
+pub const EVERY_12_AM: &str = "0 0 0 * * * *";
 
 /// Creates a closure that checks if the cron expression has passed
 /// # expression format:
@@ -167,11 +167,11 @@ pub const EVERY_12_AM_UTC: &str = "0 0 0 * * * *";
 /// |0 0 1 * * * | every day on 1:00:00|
 pub fn schedule_passed(
     expression: &str,
-) -> impl FnMut(Local<Option<DateTime<chrono::Utc>>>) -> bool {
+) -> impl FnMut(Local<Option<DateTime<chrono::Local>>>) -> bool {
     let schedule = Schedule::from_str(expression).expect("Failed to parse cron expression");
-    move |mut local_schedule: Local<Option<DateTime<chrono::Utc>>>| {
-        if let Some(datetime) = schedule.upcoming(chrono::Utc).next() {
-            let now = chrono::Utc::now();
+    move |mut local_schedule: Local<Option<DateTime<chrono::Local>>>| {
+        if let Some(datetime) = schedule.upcoming(chrono::Local).next() {
+            let now = chrono::Local::now();
             match *local_schedule {
                 Some(local) => {
                     if now > local {

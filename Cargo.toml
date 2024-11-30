@@ -1,6 +1,6 @@
 [package]
 name = "bevy_cronjob"
-version = "0.5.0-rc.1"
+version = "0.5.0"
 edition = "2021"
 authors = ["FoxZoOL <zhooul@gmail.com>"]
 description = "A simple helper to run cronjobs (at repeated schedule) in Bevy."
@@ -13,13 +13,14 @@ homepage = "https://github.com/foxzool/bevy_cronjob"
 documentation = "https://docs.rs/bevy_cronjob"
 
 [dependencies]
-bevy_ecs = { version = "0.15.0-rc.3" }
+bevy_ecs = { version = "0.15.0" }
 
 cron = "0.13.0"
 chrono = "0.4.19"
 
+
 [dev-dependencies]
-bevy = { version = "0.15.0-rc.3", default-features = false, features = [] }
+bevy = { version = "0.15.0", default-features = false, features = [] }
 #bevy = { path = "../bevy" }
 
 
