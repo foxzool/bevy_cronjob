@@ -7,7 +7,7 @@ use bevy::{
 };
 use bevy_ecs::prelude::IntoSystemConfigs;
 
-use bevy_cronjob::{schedule_passed};
+use bevy_cronjob::schedule_passed;
 
 fn main() {
     App::new()
@@ -21,7 +21,10 @@ fn main() {
             Update,
             print_per_5_sec.run_if(schedule_passed("every 5 seconds")),
         )
-        .add_systems(Update, print_per_min.run_if(schedule_passed("every 1 minute")))
+        .add_systems(
+            Update,
+            print_per_min.run_if(schedule_passed("every 1 minute")),
+        )
         .add_systems(Update, print_per_hour.run_if(schedule_passed("every hour")))
         .run();
 }
