@@ -1,21 +1,19 @@
-use std::str::FromStr;
-
-use bevy_ecs::prelude::Local;
+use bevy_app::prelude::*;
+use bevy_ecs::prelude::*;
 use chrono::DateTime;
 use cron::Schedule;
 pub use english_to_cron::str_cron_syntax;
+use std::str::FromStr;
 
 /// bevy_cronjob is a simple helper to run cronjobs (at repeated schedule) in Bevy.
 /// # Usage
 ///
 /// ``` rust,no_run
+/// use bevy::log::LogPlugin;
+/// use bevy::prelude::*;
+/// use bevy_app::ScheduleRunnerPlugin;
+/// use bevy_cronjob::prelude::*;
 /// use std::time::Duration;
-/// use bevy::{ MinimalPlugins};
-/// use bevy::app::{App, PluginGroup, ScheduleRunnerPlugin, Update};
-/// use bevy::log::{info, LogPlugin};
-///
-/// use bevy_ecs::prelude::{IntoSystemConfigs};
-/// use bevy_cronjob::schedule_passed;
 ///
 /// fn main() {
 ///     App::new()
@@ -25,6 +23,7 @@ pub use english_to_cron::str_cron_syntax;
 ///             ))),
 ///         )
 ///         .add_plugins(LogPlugin::default())
+///         .add_plugins(CronJobPlugin)
 ///         .add_systems(Update, print_per_5_sec.run_if(schedule_passed("0/5 * * * ? *")))
 ///         .add_systems(Update, print_per_min.run_if(schedule_passed("0 * * * ? *")))
 ///         .add_systems(Update, print_per_hour.run_if(schedule_passed("0 0 * * ? *")))
@@ -41,6 +40,15 @@ pub use english_to_cron::str_cron_syntax;
 /// fn print_per_hour() {
 ///     info!("print every hour")
 /// }
+///
+/// fn setup(mut commands: Commands) {
+///     commands
+///         .spawn(ScheduleTimer::new("every 3 seconds"))
+///         .observe(|_: Trigger<ScheduleArrived>| {
+///             info!("3 seconds passed");
+///         });
+/// }
+///
 /// ```
 ///
 /// ## Expression
@@ -179,13 +187,9 @@ pub const EVERY_12_AM: &str = "0 0 0 */1 * ? *";
 pub fn schedule_passed(
     expression: &str,
 ) -> impl FnMut(Local<Option<DateTime<chrono::Local>>>) -> bool {
-    let new_expression = if expression.chars().any(|c| c.is_ascii_alphabetic()) {
-        str_cron_syntax(expression).expect("Failed to parse cron expression")
-    } else {
-        expression.to_string()
-    };
+    let expression = try_english_pattern(expression);
 
-    let schedule = Schedule::from_str(&new_expression).expect("Failed to parse cron expression");
+    let schedule = Schedule::from_str(&expression).expect("Failed to parse cron expression");
     move |mut local_schedule: Local<Option<DateTime<chrono::Local>>>| {
         if let Some(datetime) = schedule.upcoming(chrono::Local).next() {
             let now = chrono::Local::now();
@@ -203,6 +207,82 @@ pub fn schedule_passed(
 
         false
     }
+}
+
+/// A Bevy plugin for running cron jobs
+pub struct CronJobPlugin;
+
+impl Plugin for CronJobPlugin {
+    fn build(&self, app: &mut App) {
+        app.add_systems(Update, check_schedule_timer);
+    }
+}
+
+/// A component that holds a cron expression
+#[derive(Debug, Component)]
+pub struct ScheduleTimer {
+    pub schedule: Schedule,
+    pub local_schedule: Option<DateTime<chrono::Local>>,
+}
+
+impl ScheduleTimer {
+    pub fn new(expression: &str) -> Self {
+        let expression = try_english_pattern(expression);
+
+        let schedule = Schedule::from_str(&expression).expect("Failed to parse cron expression");
+        Self {
+            schedule,
+            local_schedule: None,
+        }
+    }
+
+    fn schedule_passed(&mut self) -> bool {
+        if let Some(datetime) = self.schedule.upcoming(chrono::Local).next() {
+            let now = chrono::Local::now();
+            match self.local_schedule {
+                Some(local) => {
+                    if now > local {
+                        self.local_schedule = Some(datetime);
+                        return true;
+                    }
+                }
+
+                None => self.local_schedule = Some(datetime),
+            }
+        }
+
+        false
+    }
+}
+
+fn try_english_pattern(expression: &str) -> String {
+    if expression.chars().any(|c| c.is_ascii_alphabetic()) {
+        str_cron_syntax(expression).expect("Failed to parse cron expression")
+    } else {
+        expression.to_string()
+    }
+}
+
+/// A system that checks if the cron expression has passed
+fn check_schedule_timer(mut query: Query<(Entity, &mut ScheduleTimer)>, mut commands: Commands) {
+    let mut targets = vec![];
+
+    for (entity, mut schedule_timer) in query.iter_mut() {
+        if schedule_timer.schedule_passed() {
+            targets.push(entity);
+        }
+    }
+
+    if !targets.is_empty() {
+        commands.trigger_targets(ScheduleArrived, targets);
+    }
+}
+
+#[derive(Event)]
+pub struct ScheduleArrived;
+
+pub mod prelude {
+    pub use crate::{schedule_passed, CronJobPlugin, ScheduleArrived, ScheduleTimer};
 }
 
 #[test]

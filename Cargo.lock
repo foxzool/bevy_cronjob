@@ -135,6 +135,7 @@ name = "bevy_cronjob"
 version = "0.5.0"
 dependencies = [
  "bevy",
+ "bevy_app",
  "bevy_ecs",
  "chrono",
  "cron",

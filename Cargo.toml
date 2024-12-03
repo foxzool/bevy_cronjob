@@ -13,6 +13,7 @@ homepage = "https://github.com/foxzool/bevy_cronjob"
 documentation = "https://docs.rs/bevy_cronjob"
 
 [dependencies]
+bevy_app = { version = "0.15.0" }
 bevy_ecs = { version = "0.15.0" }
 
 cron = "0.13.0"
