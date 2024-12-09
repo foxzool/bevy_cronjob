@@ -10,13 +10,11 @@
 ## Usage
 
 ``` rust, no_run
+use bevy::log::LogPlugin;
+use bevy::prelude::*;
+use bevy_app::ScheduleRunnerPlugin;
+use bevy_cronjob::prelude::*;
 use std::time::Duration;
-use bevy::{ MinimalPlugins};
-use bevy::app::{App, PluginGroup, ScheduleRunnerPlugin, Update};
-use bevy::log::{info, LogPlugin};
-
-use bevy_ecs::prelude::{IntoSystemConfigs};
-use bevy_cronjob::schedule_passed;
 
 fn main() {
     App::new()
@@ -26,25 +24,40 @@ fn main() {
             ))),
         )
         .add_plugins(LogPlugin::default())
+        .add_plugins(CronJobPlugin)
+        .add_systems(Startup, setup)
         .add_systems(
             Update,
             print_per_5_sec.run_if(schedule_passed("every 5 seconds")),
         )
-        .add_systems(Update, print_per_min.run_if(schedule_passed("every 1 minute")))
+        .add_systems(
+            Update,
+            print_per_min.run_if(schedule_passed("every 1 minute")),
+        )
         .add_systems(Update, print_per_hour.run_if(schedule_passed("every hour")))
         .run();
 }
 
 fn print_per_5_sec() {
-    info!("print every 5 sec")
+    info!("system run every 5 sec")
 }
 
 fn print_per_min() {
-    info!("print every minute")
+    info!("system run every minute")
 }
+
 fn print_per_hour() {
-    info!("print every hour")
+    info!("system run every hour")
 }
+
+fn setup(mut commands: Commands) {
+    commands
+        .spawn(ScheduleTimer::new("every 3 seconds"))
+        .observe(|_: Trigger<ScheduleArrived>| {
+            info!("3 seconds passed");
+        });
+}
+
 ```
 
 ## Expression

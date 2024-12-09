@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.5.1]
+
+* use `ScheduleTimer` component for observer system
+
 ## [0.5.0]
 
 * bump `bevy_ecs` version to `0.15.0`
