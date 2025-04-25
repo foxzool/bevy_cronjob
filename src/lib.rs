@@ -61,14 +61,12 @@
 //! Ranges can be specified with a dash. For example, `1-5 * * * * *` would execute on every second
 //! for the first 5 seconds of a minute.
 
-
 use bevy_app::prelude::*;
 use bevy_ecs::prelude::*;
 use chrono::DateTime;
 use cron::Schedule;
 pub use english_to_cron::str_cron_syntax;
 use std::str::FromStr;
-
 
 /// run every 5 sec
 pub const EVERY_5_SEC: &str = "0/5 * * * * ? *";
@@ -284,7 +282,7 @@ fn check_schedule_timer(mut query: Query<(Entity, &mut ScheduleTimer)>, mut comm
 pub struct ScheduleArrived;
 
 pub mod prelude {
-    pub use crate::{schedule_passed, CronJobPlugin, ScheduleArrived, ScheduleTimer};
+    pub use crate::{CronJobPlugin, ScheduleArrived, ScheduleTimer, schedule_passed};
 }
 
 #[test]
