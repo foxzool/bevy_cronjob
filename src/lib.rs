@@ -1,3 +1,67 @@
+//! bevy_cronjob is a simple helper to run cronjobs (at repeated schedule) in Bevy.
+//! # Usage
+//!
+//! ``` rust,no_run
+//! use bevy::log::LogPlugin;
+//! use bevy::prelude::*;
+//! use bevy_app::ScheduleRunnerPlugin;
+//! use bevy_cronjob::prelude::*;
+//! use std::time::Duration;
+//!
+//! fn main() {
+//!     App::new()
+//!         .add_plugins(
+//!             MinimalPlugins.set(ScheduleRunnerPlugin::run_loop(Duration::from_secs_f64(
+//!                 1.0 / 60.0,
+//!             ))),
+//!         )
+//!         .add_plugins(LogPlugin::default())
+//!         .add_plugins(CronJobPlugin)
+//!         .add_systems(Update, print_per_5_sec.run_if(schedule_passed("0/5 * * * ? *")))
+//!         .add_systems(Update, print_per_min.run_if(schedule_passed("0 * * * ? *")))
+//!         .add_systems(Update, print_per_hour.run_if(schedule_passed("0 0 * * ? *")))
+//!         .run();
+//! }
+//!
+//! fn print_per_5_sec() {
+//!     info!("print every 5 sec")
+//! }
+//!
+//! fn print_per_min() {
+//!     info!("print every minute")
+//! }
+//! fn print_per_hour() {
+//!     info!("print every hour")
+//! }
+//!
+//! fn setup(mut commands: Commands) {
+//!     commands
+//!         .spawn(ScheduleTimer::new("every 3 seconds"))
+//!         .observe(|_: Trigger<ScheduleArrived>| {
+//!             info!("3 seconds passed");
+//!         });
+//! }
+//!
+//! ```
+//!
+//! ## Expression
+//!
+//! the scheduling expression is base on [cron](https://github.com/zslayton/cron)
+//!
+//! | sec  | min  | hour | day of month | month | day of week | year      |
+//! |------|------|------|--------------|-------|-------------|-----------|
+//! | *    | *    | *    | *            | *     | *           | *         |
+//! | 0-59 | 0-59 | 0-23 | 1-23         | 1-12  | 1-7         | 1970-2100 |
+//!
+//! Time is specified in Local Time. Note that the year may be omitted.
+//!
+//! Comma separated values such as `1,2,3` are allowed. For example, a schedule of `0,15,30,45 * * *
+//! * *`' would execute on every 15 seconds.
+//!
+//! Ranges can be specified with a dash. For example, `1-5 * * * * *` would execute on every second
+//! for the first 5 seconds of a minute.
+
+
 use bevy_app::prelude::*;
 use bevy_ecs::prelude::*;
 use chrono::DateTime;
@@ -5,68 +69,6 @@ use cron::Schedule;
 pub use english_to_cron::str_cron_syntax;
 use std::str::FromStr;
 
-/// bevy_cronjob is a simple helper to run cronjobs (at repeated schedule) in Bevy.
-/// # Usage
-///
-/// ``` rust,no_run
-/// use bevy::log::LogPlugin;
-/// use bevy::prelude::*;
-/// use bevy_app::ScheduleRunnerPlugin;
-/// use bevy_cronjob::prelude::*;
-/// use std::time::Duration;
-///
-/// fn main() {
-///     App::new()
-///         .add_plugins(
-///             MinimalPlugins.set(ScheduleRunnerPlugin::run_loop(Duration::from_secs_f64(
-///                 1.0 / 60.0,
-///             ))),
-///         )
-///         .add_plugins(LogPlugin::default())
-///         .add_plugins(CronJobPlugin)
-///         .add_systems(Update, print_per_5_sec.run_if(schedule_passed("0/5 * * * ? *")))
-///         .add_systems(Update, print_per_min.run_if(schedule_passed("0 * * * ? *")))
-///         .add_systems(Update, print_per_hour.run_if(schedule_passed("0 0 * * ? *")))
-///         .run();
-/// }
-///
-/// fn print_per_5_sec() {
-///     info!("print every 5 sec")
-/// }
-///
-/// fn print_per_min() {
-///     info!("print every minute")
-/// }
-/// fn print_per_hour() {
-///     info!("print every hour")
-/// }
-///
-/// fn setup(mut commands: Commands) {
-///     commands
-///         .spawn(ScheduleTimer::new("every 3 seconds"))
-///         .observe(|_: Trigger<ScheduleArrived>| {
-///             info!("3 seconds passed");
-///         });
-/// }
-///
-/// ```
-///
-/// ## Expression
-///
-/// the scheduling expression is base on [cron](https://github.com/zslayton/cron)
-///
-/// | sec  | min  | hour | day of month | month | day of week | year      |
-/// |------|------|------|--------------|-------|-------------|-----------|
-/// | *    | *    | *    | *            | *     | *           | *         |
-/// | 0-59 | 0-59 | 0-23 | 1-23         | 1-12  | 1-7         | 1970-2100 |
-///
-/// Time is specified in Local Time. Note that the year may be omitted.
-///
-/// Comma separated values such as `1,2,3` are allowed. For example, a schedule of `0,15,30,45 * * *
-/// * *`' would execute on every 15 seconds.
-///
-/// Ranges can be specified with a dash. For example `1-5 * * * * *`' would execute on every second
-/// for the first 5 seconds of a minute.
 
 /// run every 5 sec
 pub const EVERY_5_SEC: &str = "0/5 * * * * ? *";
