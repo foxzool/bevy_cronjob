@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.6.1] - Performance Optimizations and Critical Bug Fix
+## [0.6.1] - 2025-01-06 - Performance Optimizations and Critical Bug Fix
 
 ### Fixed
 - **Critical Bug Fix**: Fixed schedule initialization logic where timers wouldn't trigger on first check
