@@ -504,18 +504,27 @@ mod tests {
 
         // Test the upcoming method works
         let next_upcoming = schedule.upcoming(ChronoLocal).next();
-        assert!(next_upcoming.is_some(), "Schedule should have upcoming times");
+        assert!(
+            next_upcoming.is_some(),
+            "Schedule should have upcoming times"
+        );
 
         // Test the after method works
         let past_time = now - chrono::Duration::seconds(2);
         let next_after = schedule.after(&past_time).next();
-        assert!(next_after.is_some(), "Schedule should have times after past time");
+        assert!(
+            next_after.is_some(),
+            "Schedule should have times after past time"
+        );
 
         // Verify that upcoming and after can return different results
         if let (Some(_upcoming), Some(after)) = (next_upcoming, next_after) {
             // The next upcoming time should generally be >= now
             // The next after past_time should be > past_time
-            assert!(after > past_time, "After time should be greater than reference time");
+            assert!(
+                after > past_time,
+                "After time should be greater than reference time"
+            );
         }
     }
 }

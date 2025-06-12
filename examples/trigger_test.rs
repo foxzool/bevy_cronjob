@@ -1,10 +1,9 @@
 /// Test example to verify that schedule triggers work correctly from the start.
-/// 
+///
 /// This example demonstrates that the fixed logic properly handles:
 /// - First-time initialization of schedules
 /// - Immediate triggering when appropriate
 /// - Proper state management across multiple checks
-
 use bevy::log::LogPlugin;
 use bevy::prelude::*;
 use bevy_app::ScheduleRunnerPlugin;
@@ -45,7 +44,10 @@ fn setup_trigger_tests(mut commands: Commands) {
             Name::new("Every-Second-Timer"),
         ))
         .observe(|trigger: Trigger<ScheduleArrived>| {
-            info!("✅ Every-second timer triggered for entity {:?}", trigger.target());
+            info!(
+                "✅ Every-second timer triggered for entity {:?}",
+                trigger.target()
+            );
         });
 
     // Timer that should trigger every 2 seconds
@@ -55,7 +57,10 @@ fn setup_trigger_tests(mut commands: Commands) {
             Name::new("Every-2-Seconds-Timer"),
         ))
         .observe(|trigger: Trigger<ScheduleArrived>| {
-            info!("✅ Every-2-seconds timer triggered for entity {:?}", trigger.target());
+            info!(
+                "✅ Every-2-seconds timer triggered for entity {:?}",
+                trigger.target()
+            );
         });
 
     // Timer using English expression
@@ -65,7 +70,10 @@ fn setup_trigger_tests(mut commands: Commands) {
             Name::new("Every-3-Seconds-English"),
         ))
         .observe(|trigger: Trigger<ScheduleArrived>| {
-            info!("✅ Every-3-seconds (English) timer triggered for entity {:?}", trigger.target());
+            info!(
+                "✅ Every-3-seconds (English) timer triggered for entity {:?}",
+                trigger.target()
+            );
         });
 
     info!("Trigger test setup complete! Schedules should start triggering soon.");
