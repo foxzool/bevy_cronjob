@@ -39,7 +39,7 @@
 //! fn setup(mut commands: Commands) {
 //!     commands
 //!         .spawn(ScheduleTimer::new("every 3 seconds"))
-//!         .observe(|_: Trigger<ScheduleArrived>| {
+//!         .observe(|_: On<ScheduleArrived>| {
 //!             info!("3 seconds passed");
 //!         });
 //! }
@@ -193,11 +193,10 @@ pub fn schedule_passed(
         match *last_trigger {
             Some(last) => {
                 // If we have a previous trigger time, check for the next scheduled time after it
-                if let Some(next_time) = schedule.after(&last).next() {
-                    if now >= next_time {
-                        *last_trigger = Some(next_time);
-                        return true;
-                    }
+                if let Some(next_time) = schedule.after(&last).next()
+                    && now >= next_time {
+                    *last_trigger = Some(next_time);
+                    return true;
                 }
             }
             None => {
@@ -246,7 +245,7 @@ impl Plugin for CronJobPlugin {
 /// fn setup(mut commands: Commands) {
 ///     commands
 ///         .spawn(ScheduleTimer::new("every 5 seconds"))
-///         .observe(|_: Trigger<ScheduleArrived>| {
+///         .observe(|_: On<ScheduleArrived>| {
 ///             info!("Timer triggered!");
 ///         });
 /// }
@@ -305,11 +304,10 @@ impl ScheduleTimer {
         match self.last_trigger {
             Some(last) => {
                 // If we have a previous trigger time, check for the next scheduled time after it
-                if let Some(next_time) = self.schedule.after(&last).next() {
-                    if now >= next_time {
-                        self.last_trigger = Some(next_time);
-                        return true;
-                    }
+                if let Some(next_time) = self.schedule.after(&last).next()
+                    && now >= next_time {
+                    self.last_trigger = Some(next_time);
+                    return true;
                 }
             }
             None => {
@@ -384,9 +382,9 @@ fn check_schedule_timers(mut query: Query<(Entity, &mut ScheduleTimer)>, mut com
         })
         .collect();
 
-    // Send events to all triggered entities in a single operation
-    if !triggered_entities.is_empty() {
-        commands.trigger_targets(ScheduleArrived, triggered_entities);
+    // Send events to all triggered entities individually
+    for entity in triggered_entities {
+        commands.trigger(ScheduleArrived { entity });
     }
 }
 
@@ -402,12 +400,15 @@ fn check_schedule_timers(mut query: Query<(Entity, &mut ScheduleTimer)>, mut com
 /// use bevy::prelude::*;
 /// use bevy_cronjob::prelude::*;
 ///
-/// fn handle_schedule(trigger: Trigger<ScheduleArrived>) {
+/// fn handle_schedule(trigger: On<ScheduleArrived>) {
 ///     info!("Schedule triggered for entity: {:?}", trigger.target());
 /// }
 /// ```
-#[derive(Event)]
-pub struct ScheduleArrived;
+#[derive(EntityEvent)]
+pub struct ScheduleArrived {
+    #[event_target]
+    pub entity: Entity,
+}
 
 /// Convenient re-exports for common functionality.
 pub mod prelude {

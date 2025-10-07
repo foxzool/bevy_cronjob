@@ -47,7 +47,7 @@ fn main() {
 fn setup(mut commands: Commands) {
     commands
         .spawn(ScheduleTimer::new("every 10 seconds"))
-        .observe(|_: Trigger<ScheduleArrived>| {
+        .observe(|_: On<ScheduleArrived>| {
             info!("Timer triggered!");
         });
 }
@@ -129,16 +129,16 @@ fn setup(mut commands: Commands) {
 }
 
 fn report_score(
-    trigger: Trigger<ScheduleArrived>,
+    trigger: On<ScheduleArrived>,
     query: Query<&GameStats>,
 ) {
-    if let Ok(stats) = query.get(trigger.entity()) {
+    if let Ok(stats) = query.get(trigger.event().entity) {
         info!("Current score: {}, Level: {}", stats.score, stats.level);
     }
 }
 
-fn check_player_health(trigger: Trigger<ScheduleArrived>) {
-    info!("Checking player health for entity: {:?}", trigger.entity());
+fn check_player_health(trigger: On<ScheduleArrived>) {
+    info!("Checking player health for entity: {:?}", trigger.event().entity);
 }
 ```
 
@@ -259,7 +259,7 @@ fn setup_game_schedules(mut commands: Commands) {
     // Save game progress every 5 minutes
     commands
         .spawn(ScheduleTimer::new("every 5 minutes"))
-        .observe(|_: Trigger<ScheduleArrived>| {
+        .observe(|_: On<ScheduleArrived>| {
             info!("Auto-saving game progress...");
             // Save game logic here
         });
@@ -272,16 +272,16 @@ fn setup_game_schedules(mut commands: Commands) {
     // Weekend bonus events
     commands
         .spawn(ScheduleTimer::new("0 0 18 ? * FRI *")) // Friday 6 PM
-        .observe(|_: Trigger<ScheduleArrived>| {
+        .observe(|_: On<ScheduleArrived>| {
             info!("Weekend bonus event started!");
         });
 }
 
 fn spawn_enemy_wave(
-    trigger: Trigger<ScheduleArrived>,
+    trigger: On<ScheduleArrived>,
     mut commands: Commands,
 ) {
-    info!("Spawning enemy wave for spawner: {:?}", trigger.entity());
+    info!("Spawning enemy wave for spawner: {:?}", trigger.event().entity);
 
     // Spawn multiple enemies
     for i in 0..5 {
@@ -293,7 +293,7 @@ fn spawn_enemy_wave(
     }
 }
 
-fn reset_daily_challenges(trigger: Trigger<ScheduleArrived>) {
+fn reset_daily_challenges(trigger: On<ScheduleArrived>) {
     info!("Resetting daily challenges...");
     // Reset challenge progress
 }
@@ -326,22 +326,22 @@ fn setup_server_maintenance(mut commands: Commands) {
         .observe(schedule_server_restart);
 }
 
-fn log_server_stats(trigger: Trigger<ScheduleArrived>) {
-    info!("Server uptime check - Entity: {:?}", trigger.entity());
+fn log_server_stats(trigger: On<ScheduleArrived>) {
+    info!("Server uptime check - Entity: {:?}", trigger.event().entity);
     // Log memory usage, player count, etc.
 }
 
-fn cleanup_disconnected_players(trigger: Trigger<ScheduleArrived>) {
+fn cleanup_disconnected_players(trigger: On<ScheduleArrived>) {
     info!("Cleaning up disconnected players...");
     // Remove inactive player entities
 }
 
-fn backup_database(trigger: Trigger<ScheduleArrived>) {
+fn backup_database(trigger: On<ScheduleArrived>) {
     info!("Starting database backup...");
     // Backup logic
 }
 
-fn schedule_server_restart(trigger: Trigger<ScheduleArrived>) {
+fn schedule_server_restart(trigger: On<ScheduleArrived>) {
     info!("Scheduling server restart for maintenance...");
     // Graceful restart logic
 }
@@ -384,7 +384,7 @@ fn adjust_spawn_rate(
 
         commands
             .spawn(ScheduleTimer::new(spawn_interval))
-            .observe(move |_: Trigger<ScheduleArrived>| {
+            .observe(move |_: On<ScheduleArrived>| {
                 info!("Spawning enemies at difficulty level {}", difficulty.0);
             });
     }
@@ -421,7 +421,7 @@ fn setup_with_validation(mut commands: Commands) {
         Ok(timer) => {
             commands
                 .spawn(timer)
-                .observe(|_: Trigger<ScheduleArrived>| {
+                .observe(|_: On<ScheduleArrived>| {
                     info!("Safe timer triggered!");
                 });
         }
@@ -521,6 +521,28 @@ cargo run --example trigger_test
 
 ## 🔄 Migration Guide
 
+### From Bevy 0.16 to 0.17
+
+Bevy 0.17 introduced changes to the event system. Here's what you need to update:
+
+**Observer Function Signatures**:
+```rust
+// Old (Bevy 0.16)
+.observe(|trigger: Trigger<ScheduleArrived>| {
+    info!("Entity: {:?}", trigger.target());
+})
+
+// New (Bevy 0.17)
+.observe(|trigger: On<ScheduleArrived>| {
+    info!("Entity: {:?}", trigger.event().entity);
+})
+```
+
+**Key Changes**:
+1. `Trigger<T>` renamed to `On<T>`
+2. `trigger.target()` changed to `trigger.event().entity`
+3. `ScheduleArrived` now uses `EntityEvent` derive macro
+
 ### From v0.5.x to v0.6.x
 
 No breaking changes! The API remains the same, but with important improvements:
@@ -538,12 +560,12 @@ bevy_cronjob = "0.6"
 
 ## 📊 Supported Bevy Versions
 
-| Bevy Version | bevy_cronjob Version | 
+| Bevy Version | bevy_cronjob Version |
 |--------------|----------------------|
-| 0.16         | 0.6                  | 
-| 0.15         | 0.5                  | 
-| 0.14         | 0.4                  | 
-| 0.13         | 0.3                  | 
+| 0.17         | 0.6                  |
+| 0.16         | 0.5                  |
+| 0.15         | 0.4                  |
+| 0.14         | 0.3                  | 
 
 ## 🤝 Contributing
 

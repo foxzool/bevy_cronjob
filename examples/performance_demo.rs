@@ -54,11 +54,11 @@ fn setup_performance_demo(mut commands: Commands) {
                 ScheduleTimer::new(schedule),
                 Name::new(format!("Timer-{}", i)),
             ))
-            .observe(move |trigger: Trigger<ScheduleArrived>| {
+            .observe(move |trigger: On<ScheduleArrived>| {
                 info!(
                     "Batch timer {} triggered for entity {:?}",
                     i,
-                    trigger.target()
+                    trigger.event().entity
                 );
             });
     }
@@ -69,10 +69,10 @@ fn setup_performance_demo(mut commands: Commands) {
             ScheduleTimer::new("0/13 * * * * ? *"), // Every 13 seconds
             Name::new("Complex-Timer"),
         ))
-        .observe(|trigger: Trigger<ScheduleArrived>| {
+        .observe(|trigger: On<ScheduleArrived>| {
             info!(
                 "Complex cron schedule triggered for entity {:?}",
-                trigger.target()
+                trigger.event().entity
             );
         });
 
@@ -85,11 +85,11 @@ fn setup_performance_demo(mut commands: Commands) {
                 ScheduleTimer::new(schedule),
                 Name::new(format!("English-Timer-{}", idx + 1)),
             ))
-            .observe(move |trigger: Trigger<ScheduleArrived>| {
+            .observe(move |trigger: On<ScheduleArrived>| {
                 info!(
                     "English schedule '{}' triggered for entity {:?}",
                     schedule,
-                    trigger.target()
+                    trigger.event().entity
                 );
             });
     }

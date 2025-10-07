@@ -43,10 +43,10 @@ fn setup_trigger_tests(mut commands: Commands) {
             ScheduleTimer::new("* * * * * ? *"),
             Name::new("Every-Second-Timer"),
         ))
-        .observe(|trigger: Trigger<ScheduleArrived>| {
+        .observe(|trigger: On<ScheduleArrived>| {
             info!(
                 "✅ Every-second timer triggered for entity {:?}",
-                trigger.target()
+                trigger.event().entity
             );
         });
 
@@ -56,10 +56,10 @@ fn setup_trigger_tests(mut commands: Commands) {
             ScheduleTimer::new("0/2 * * * * ? *"),
             Name::new("Every-2-Seconds-Timer"),
         ))
-        .observe(|trigger: Trigger<ScheduleArrived>| {
+        .observe(|trigger: On<ScheduleArrived>| {
             info!(
                 "✅ Every-2-seconds timer triggered for entity {:?}",
-                trigger.target()
+                trigger.event().entity
             );
         });
 
@@ -69,10 +69,10 @@ fn setup_trigger_tests(mut commands: Commands) {
             ScheduleTimer::new("every 3 seconds"),
             Name::new("Every-3-Seconds-English"),
         ))
-        .observe(|trigger: Trigger<ScheduleArrived>| {
+        .observe(|trigger: On<ScheduleArrived>| {
             info!(
                 "✅ Every-3-seconds (English) timer triggered for entity {:?}",
-                trigger.target()
+                trigger.event().entity
             );
         });
 

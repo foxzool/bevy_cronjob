@@ -58,8 +58,8 @@ fn setup(mut commands: Commands) {
     // Create an entity with a 3-second timer using an observer
     commands
         .spawn(ScheduleTimer::new("every 3 seconds"))
-        .observe(|trigger: Trigger<ScheduleArrived>| {
-            info!("Entity {:?}: 3 seconds have passed", trigger.target());
+        .observe(|trigger: On<ScheduleArrived>| {
+            info!("Entity {:?}: 3 seconds have passed", trigger.event().entity);
         });
 
     // Create an entity with a 10-second timer using a named observer function
@@ -71,17 +71,20 @@ fn setup(mut commands: Commands) {
     // Note: This will only trigger once per day at the specified time
     commands
         .spawn(ScheduleTimer::new("every day at 9 am"))
-        .observe(|trigger: Trigger<ScheduleArrived>| {
-            info!("Entity {:?}: Daily 9 AM task executed", trigger.target());
+        .observe(|trigger: On<ScheduleArrived>| {
+            info!(
+                "Entity {:?}: Daily 9 AM task executed",
+                trigger.event().entity
+            );
         });
 
     // Create an entity with a custom cron expression (every 7 seconds)
     commands
         .spawn(ScheduleTimer::new("0/7 * * * * ? *"))
-        .observe(|trigger: Trigger<ScheduleArrived>| {
+        .observe(|trigger: On<ScheduleArrived>| {
             info!(
                 "Entity {:?}: Custom 7-second cron job executed",
-                trigger.target()
+                trigger.event().entity
             );
         });
 
@@ -92,10 +95,10 @@ fn setup(mut commands: Commands) {
 ///
 /// This demonstrates how to use a named function as an observer,
 /// which can be useful for more complex logic or reusable handlers.
-fn handle_ten_second_timer(trigger: Trigger<ScheduleArrived>) {
+fn handle_ten_second_timer(trigger: On<ScheduleArrived>) {
     info!(
         "Named observer triggered for entity {:?}: 10 seconds elapsed",
-        trigger.target()
+        trigger.event().entity
     );
 
     // You can add more complex logic here, such as:
