@@ -194,7 +194,8 @@ pub fn schedule_passed(
             Some(last) => {
                 // If we have a previous trigger time, check for the next scheduled time after it
                 if let Some(next_time) = schedule.after(&last).next()
-                    && now >= next_time {
+                    && now >= next_time
+                {
                     *last_trigger = Some(next_time);
                     return true;
                 }
@@ -305,7 +306,8 @@ impl ScheduleTimer {
             Some(last) => {
                 // If we have a previous trigger time, check for the next scheduled time after it
                 if let Some(next_time) = self.schedule.after(&last).next()
-                    && now >= next_time {
+                    && now >= next_time
+                {
                     self.last_trigger = Some(next_time);
                     return true;
                 }
