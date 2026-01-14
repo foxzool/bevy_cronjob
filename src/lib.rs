@@ -403,7 +403,7 @@ fn check_schedule_timers(mut query: Query<(Entity, &mut ScheduleTimer)>, mut com
 /// use bevy_cronjob::prelude::*;
 ///
 /// fn handle_schedule(trigger: On<ScheduleArrived>) {
-///     info!("Schedule triggered for entity: {:?}", trigger.target());
+///     info!("Schedule triggered for entity: {:?}", trigger.event().entity);
 /// }
 /// ```
 #[derive(EntityEvent)]

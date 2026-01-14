@@ -23,7 +23,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-bevy_cronjob = "0.6"
+bevy_cronjob = "0.8"
 ```
 
 Basic usage:
@@ -543,6 +543,21 @@ Bevy 0.17 introduced changes to the event system. Here's what you need to update
 2. `trigger.target()` changed to `trigger.event().entity`
 3. `ScheduleArrived` now uses `EntityEvent` derive macro
 
+### From Bevy 0.17 to 0.18
+
+Bevy 0.18 introduced several improvements and internal refactors, but **no breaking changes** affect the `bevy_cronjob` API. Here's what you need to know:
+
+**Key Changes**:
+1. **Entity Events**: Mutable methods on `EntityEvent` have been moved to a separate `SetEntityEventTarget` trait. `ScheduleArrived` only uses immutable fields, so no changes needed.
+2. **System Generics**: `FunctionSystem` now has a new generic parameter `In`. The `schedule_passed` run condition continues to work without modifications.
+3. **Internal Refactors**: `TickCells` renamed to `ComponentTickCells` and other internal improvements. These don't affect the public API.
+4. **Query Improvements**: New `ArchetypeQueryData` trait for advanced query patterns. Existing queries continue to work.
+
+**Migration Steps**:
+1. Update `bevy_app` and `bevy_ecs` dependencies to `0.18.0` in `Cargo.toml`
+2. Run `cargo build` to verify compilation
+3. No code changes required for `bevy_cronjob` usage
+
 ### From v0.5.x to v0.6.x
 
 No breaking changes! The API remains the same, but with important improvements:
@@ -562,6 +577,7 @@ bevy_cronjob = "0.6"
 
 | Bevy Version | bevy_cronjob Version |
 |--------------|----------------------|
+| 0.18         | 0.8                  |
 | 0.17         | 0.6                  |
 | 0.16         | 0.5                  |
 | 0.15         | 0.4                  |
