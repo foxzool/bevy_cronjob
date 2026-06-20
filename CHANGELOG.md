@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.9.0] - 2026-06-19
+
+### Changed
+- Upgrade to Bevy 0.19.0
+- Updated all Bevy dependencies to 0.19.0
+
 ## [0.6.1] - 2025-01-06 - Performance Optimizations and Critical Bug Fix
 
 ### Fixed
