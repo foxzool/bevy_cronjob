@@ -13,8 +13,8 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - uses: actions/checkout@v7
+      - uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/bin/
@@ -23,7 +23,7 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-test-${{ hashFiles('**/Cargo.toml') }}
-      - uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
       - name: Install alsa and udev
@@ -34,8 +34,8 @@ jobs:
   all-doc-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - uses: actions/checkout@v7
+      - uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/bin/
@@ -44,7 +44,7 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ubuntu-latest-cargo-all-doc-tests-${{ hashFiles('**/Cargo.toml') }}
-      - uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
       - name: Install alsa and udev
@@ -54,8 +54,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - uses: actions/checkout@v7
+      - uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/bin/
@@ -64,7 +64,7 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ubuntu-latest-cargo-lint-${{ hashFiles('**/Cargo.toml') }}
-      - uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
           components: rustfmt, clippy
