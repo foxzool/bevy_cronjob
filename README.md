@@ -572,6 +572,10 @@ Bevy 0.19 introduced internal improvements and refactors, but **no breaking chan
 2. Run `cargo build` to verify compilation
 3. No code changes required for `bevy_cronjob` usage
 
+### From Bevy 0.19 to 0.20 RC
+
+The unreleased branch pins `bevy_app`, `bevy_ecs`, and the development-only `bevy` dependency to `=0.20.0-rc.2`. The existing run conditions and `On<ScheduleArrived>` observers compile without API changes. This is prerelease support; the published 0.9 release continues to target Bevy 0.19.
+
 ### From v0.5.x to v0.6.x
 
 No breaking changes! The API remains the same, but with important improvements:
@@ -591,6 +595,7 @@ bevy_cronjob = "0.6"
 
 | Bevy Version | bevy_cronjob Version |
 |--------------|----------------------|
+| 0.20.0-rc.2  | unreleased branch    |
 | 0.19         | 0.9                  |
 | 0.18         | 0.8                  |
 | 0.17         | 0.6                  |
