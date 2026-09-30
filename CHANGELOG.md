@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+- Pin all Bevy dependencies to `=0.20.0-rc.2` for prerelease compatibility.
+
 ## [0.9.0] - 2026-06-19
 
 ### Changed
