@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0] - 2026-10-09
+
+### Changed
+- Upgrade to Bevy 0.20.0
+- Updated `bevy`, `bevy_app`, and `bevy_ecs` dependencies to 0.20.0
+- No public API changes: `On<ScheduleArrived>`, `ScheduleTimer`, `schedule_passed`, and `CronJobPlugin` work the same as in 0.9
+
 ## [0.9.0] - 2026-06-19
 
 ### Changed

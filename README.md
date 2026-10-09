@@ -23,7 +23,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-bevy_cronjob = "0.9"
+bevy_cronjob = "0.10"
 ```
 
 Basic usage:
@@ -572,6 +572,21 @@ Bevy 0.19 introduced internal improvements and refactors, but **no breaking chan
 2. Run `cargo build` to verify compilation
 3. No code changes required for `bevy_cronjob` usage
 
+### From Bevy 0.19 to 0.20
+
+Bevy 0.20 changed observer generics and a few engine internals, but **no breaking changes** affect the `bevy_cronjob` API. `On<ScheduleArrived>` observers, `commands.trigger(ScheduleArrived { entity })`, and the `schedule_passed` run condition continue to work without modifications.
+
+**Key Changes**:
+1. **Dependencies**: `bevy`, `bevy_app`, and `bevy_ecs` updated to `0.20.0`
+2. **No API Changes**: All public APIs (`ScheduleTimer`, `ScheduleArrived`, `schedule_passed`, `CronJobPlugin`) remain identical
+3. **Observers**: Bevy removed the `B: Bundle` generic from `On<E, B>`. Lifecycle observers are now written as `On<Add<T>>`. This crate's observers are `On<ScheduleArrived>`, so existing handlers do not need to change
+4. **`Name`**: `From<&str>` for `Name` now requires a `'static` string. Examples already use `Name::new`, which still accepts an owned `String`
+
+**Migration Steps**:
+1. Update `bevy_cronjob` to `0.10` and Bevy dependencies to `0.20.0`
+2. Run `cargo build` to verify compilation
+3. No code changes required for `bevy_cronjob` usage
+
 ### From v0.5.x to v0.6.x
 
 No breaking changes! The API remains the same, but with important improvements:
@@ -591,6 +606,7 @@ bevy_cronjob = "0.6"
 
 | Bevy Version | bevy_cronjob Version |
 |--------------|----------------------|
+| 0.20         | 0.10                 |
 | 0.19         | 0.9                  |
 | 0.18         | 0.8                  |
 | 0.17         | 0.6                  |
